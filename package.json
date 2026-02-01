@@ -4,6 +4,9 @@
   "private": true,
   "description": "Backlog課題完了通知をSlackに送信し、承認後にコメントを投稿するBot",
   "packageManager": "pnpm@10.0.0",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
   "workspaces": [
     "infra",
     "server"
