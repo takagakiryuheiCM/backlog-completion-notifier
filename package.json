@@ -1,0 +1,22 @@
+{
+  "name": "backlog-completion-notifier",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Backlog課題完了通知をSlackに送信し、承認後にコメントを投稿するBot",
+  "packageManager": "pnpm@10.0.0",
+  "workspaces": [
+    "infra",
+    "server"
+  ],
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "deploy": "pnpm -F infra run deploy",
+    "validate": "pnpm -r run validate",
+    "build": "pnpm -r run build"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "2.0.5",
+    "@types/node": "22.13.0",
+    "typescript": "5.7.3"
+  }
+}
