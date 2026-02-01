@@ -16,7 +16,7 @@ export class BedrockClient implements SummaryGenerator {
   constructor(logger: Logger) {
     this.#client = new BedrockRuntimeClient({ region: "ap-northeast-1" });
     // Claude 3.5 Sonnet - ap-northeast-1 で on-demand 利用可能
-    this.#modelId = "anthropic.claude-3-5-sonnet-20240620-v1:0";
+    this.#modelId = "global.anthropic.claude-opus-4-5-20251101-v1:0";
     this.#logger = logger;
     }
 
