@@ -94,7 +94,10 @@ export const registerContainer = (): Container => {
   container
     .bind<SlackNotifier>(serviceId.SLACK_NOTIFIER)
     .toDynamicValue(() =>
-      new SlackClient(container.get<string>(serviceId.SLACK_BOT_TOKEN))
+      new SlackClient(
+        container.get<string>(serviceId.SLACK_BOT_TOKEN),
+        container.get<Logger>(serviceId.LOGGER)
+      )
     )
     .inSingletonScope();
 
