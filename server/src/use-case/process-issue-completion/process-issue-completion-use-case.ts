@@ -138,19 +138,36 @@ export class ProcessIssueCompletionUseCaseImpl implements ProcessIssueCompletion
     this.#logger.debug("Step 3: コールバック作成完了", { callbackId });
 
     // Step 4: Slack承認リクエストを送信
-    this.#logger.debug("Step 4: Slack承認リクエスト送信開始");
-    await context.step("send-approval-request", async () => {
+    this.#logger.debug("Step 4: Slack承認リクエスト送信開始", {
+      channel: this.#slackChannelId,
+      issueKey: issueDetails.issueKey,
+      callbackId,
+    });
+    const approvalMessageResult = await context.step("send-approval-request", async () => {
       const message = buildApprovalMessage({
         channel: this.#slackChannelId,
         issueKey: issueDetails.issueKey,
         issueSummary: issueDetails.issueSummary,
         issueUrl: issueDetails.issueUrl,
-        summary,
         callbackId,
       });
-      await this.#slackNotifier.postMessage(message);
+      return this.#slackNotifier.postMessage(message);
     });
-    this.#logger.debug("Step 4: Slack承認リクエスト送信完了");
+    this.#logger.debug("Step 4: Slack承認リクエスト送信完了", {
+      channel: approvalMessageResult.channel,
+      ts: approvalMessageResult.ts,
+    });
+
+    // Step 4.5: 完了サマリーをスレッドに投稿
+    this.#logger.debug("Step 4.5: サマリースレッド投稿開始");
+    await context.step("send-summary-thread", async () => {
+      await this.#slackNotifier.postMessage({
+        channel: this.#slackChannelId,
+        text: `*完了サマリー:*\n${summary}`,
+        thread_ts: approvalMessageResult.ts,
+      });
+    });
+    this.#logger.debug("Step 4.5: サマリースレッド投稿完了");
 
     // Step 5: ユーザー承認を待機
     this.#logger.debug("承認待機中", {

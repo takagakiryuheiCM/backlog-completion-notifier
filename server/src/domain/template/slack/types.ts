@@ -30,4 +30,5 @@ export interface SlackMessage {
   channel: string;
   text: string;
   blocks?: SlackBlock[];
+  thread_ts?: string;
 }

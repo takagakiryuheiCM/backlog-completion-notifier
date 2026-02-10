@@ -8,7 +8,6 @@ export interface ApprovalMessageParams {
   issueKey: string;
   issueSummary: string;
   issueUrl: string;
-  summary: string;
   callbackId: string;
 }
 
@@ -16,7 +15,7 @@ export interface ApprovalMessageParams {
  * 承認ボタン付きSlackメッセージを構築
  */
 export const buildApprovalMessage = (params: ApprovalMessageParams): SlackMessage => {
-  const { channel, issueKey, issueSummary, issueUrl, summary, callbackId } = params;
+  const { channel, issueKey, issueSummary, issueUrl, callbackId } = params;
 
   return {
     channel,
@@ -35,16 +34,6 @@ export const buildApprovalMessage = (params: ApprovalMessageParams): SlackMessag
         text: {
           type: "mrkdwn",
           text: `*<${issueUrl}|${issueSummary}>*`,
-        },
-      },
-      {
-        type: "divider",
-      },
-      {
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: `*完了サマリー:*\n${summary}`,
         },
       },
       {
