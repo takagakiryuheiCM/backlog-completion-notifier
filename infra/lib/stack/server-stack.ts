@@ -78,7 +78,11 @@ export class ServerStack extends cdk.Stack {
     // Durable FunctionにBedrock呼び出し権限を付与
     durableFunction.addToRolePolicy(
       new iam.PolicyStatement({
-        actions: ["bedrock:InvokeModel"],
+        actions: [
+          "bedrock:InvokeModel",
+          "aws-marketplace:ViewSubscriptions",
+          "aws-marketplace:Subscribe",
+        ],
         resources: ["*"],
       })
     );
